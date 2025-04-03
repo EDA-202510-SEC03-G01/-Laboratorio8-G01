@@ -31,7 +31,7 @@ import datetime
 # TODO Realice la importación del Árbol Binario Ordenado
 # TODO Realice la importación de ArrayList (al) como estructura de datos auxiliar para sus requerimientos
 # TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar para sus requerimientos
-
+from DataStructures.Tree import binary_search_tree as bst
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
