@@ -1,9 +1,6 @@
-def new_node(key, value):
-    node = {"key": key, "value": value, "size": 1, "left": None, "right": None}
+from DataStructures.Tree import bst_node as n
 
-    return node
-
-def new_bst():
+def new_map():
     bst = {"root": None}
     return bst
 
@@ -23,7 +20,7 @@ def get_node(node, key):
 
 def insert_node(node, key, value):
     if node is None:
-        return new_node(key, value)
+        return n.new_node(key, value)
     
     if key == node["key"]:
         node["value"] = value  
