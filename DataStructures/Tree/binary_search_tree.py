@@ -101,16 +101,35 @@ def remove(bst, key):
     bst['root'] = remove_node(bst['root'], key)
     return bst
 
+def contains (bst,key):
+    pass
+        
+def is_empty (bst):
+    if bst["root"] == None:
+        return True
+    return False
+
+def get_max (bst):
+    maximo = max_key_node(bst["root"])
+    return maximo
+
 def min_key_node(node):
     if node is None:
         return None
-    while node is not None:
+    while node["left"] is not None:
         node = node["left"]
     return node["key"]
 
-def min_key(bst):
-    min  = min_key_node(bst["root"])
-    return min
+def max_key_node(node):
+    if node is None:
+        return None
+    while node["right"] is not None:
+        node = node["right"]
+    return node["key"]
+
+def get_min (bst):
+    minimo  = min_key_node(bst["root"])
+    return minimo
 
 def floor_key(node, key):
     if node is None:
