@@ -150,3 +150,24 @@ def rank_keys(node, key):
     
 def rank(bst, key):
     return rank_keys(bst["root"], key, bst["cmp_function"])
+
+def ceiling_key(node, key):
+    if node is None:
+        return None
+    
+    if node["key"] == key:
+        return node["key"]
+    
+    if node["key"] < key:
+        return ceiling_key(node["left"], key)
+        
+    if node["key"] > key:
+        return ceiling_key(node["right"], key)
+    
+    right_floor = floor_key(node["right"], key)
+    return right_floor if right_floor is not None else node["key"]
+        
+def ceiling(my_bst, key):
+    llave = floor_key(my_bst["root"], key)
+    return llave
+
