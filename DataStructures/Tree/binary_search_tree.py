@@ -149,4 +149,22 @@ def rank_keys(node, key):
         return 1 + size_tree(node["left"]) + rank_keys(node["right"], key)
     
 def rank(bst, key):
-    return rank_keys(bst["root"], key, bst["cmp_function"])
+    return rank_keys(bst["root"], key)
+
+def height_tree(root):
+    if root is None:
+        return 0
+    count = 0
+    while root != None:
+        root = root["left"]
+        count += 1
+        
+def height(my_bst):
+    pass
+
+def keys(my_bst, key_initial, key_final):
+    pass
+
+def keys_range(root, key_initial, key_final, list_key):
+    pass
+    
