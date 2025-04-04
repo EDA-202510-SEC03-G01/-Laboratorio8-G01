@@ -1,8 +1,16 @@
 from DataStructures.Tree import bst_node as n
+from DataStructures.List import single_linked_list as sll
 
 def new_map():
     bst = {"root": None}
     return bst
+
+def default_compare(key, element):
+   if key == n.get_key(element):
+      return 0
+   elif key > n.get_key(element):
+      return 1
+   return -1
 
 def get_node(node, key):
     """
@@ -138,14 +146,15 @@ def floor_key(node, key):
     if node["key"] == key:
         return node["key"]
     
-    if node["key"] > key:
+    if key < node["key"]:
         return floor_key(node["left"], key)
-        
-    if node["key"] < key:
-        return floor_key(node["right"], key)
-    
-    right_floor = floor_key(node["right"], key)
-    return right_floor if right_floor is not None else node["key"]
+
+    # Si la clave es mayor, puede que este nodo sea el floor, o esté más a la derecha
+    temp = floor_key(node["right"], key)
+    if temp is not None:
+        return temp
+    else:
+        return node["key"]
         
 def floor(my_bst, key):
     llave = floor_key(my_bst["root"], key)
@@ -173,21 +182,44 @@ def rank(bst, key):
 def height_tree(root):
     if root is None:
         return 0
-    count = 0
-    while root != None:
-        root = root["left"]
-        count += 1
-        
-def height(my_bst):
-    pass
+    left = height_tree(root["left"])
+    right = height_tree(root["right"])
+    return 1 + max(left, right)
 
-def keys(my_bst, key_initial, key_final):
-    pass
+def height(my_bst):
+    return height_tree(my_bst["root"])
+
 
 def keys_range(root, key_initial, key_final, list_key):
-    pass
-    
-    return rank_keys(bst["root"], key, bst["cmp_function"])
+    if root is None:
+        return
+    if key_initial < root["key"]:
+        keys_range(root["left"], key_initial, key_final, list_key)
+    if key_initial <= root["key"] <= key_final:
+        sll.add_last(list_key, root["key"])  
+    if key_final > root["key"]:
+        keys_range(root["right"], key_initial, key_final, list_key)
+
+
+def keys(my_bst, key_initial, key_final):
+    result = sll.new_list()  
+    keys_range(my_bst["root"], key_initial, key_final, result)  
+    return result
+
+def values_range(root, key_initial, key_final, list_values):
+    if root is None:
+        return
+    if key_initial < root["key"]:
+        values_range(root["left"], key_initial, key_final, list_values)
+    if key_initial <= root["key"] <= key_final:
+        sll.add_last(list_values, root["value"])
+    if key_final > root["key"]:
+        values_range(root["right"], key_initial, key_final, list_values)
+        
+def values(my_bst, key_initial, key_final):
+    result = sll.new_list()
+    values_range(my_bst["root"], key_initial, key_final, result)
+    return result
 
 def ceiling_key(node, key):
     if node is None:
@@ -209,3 +241,63 @@ def ceiling(my_bst, key):
     llave = floor_key(my_bst["root"], key)
     return llave
 
+
+
+"""
+#PRUEBAS
+
+# Crear BST nuevo
+tree = new_map()
+
+print("empty",is_empty(tree))  # True
+
+# Insertar valores
+put(tree, 10, "A")
+put(tree, 5, "B")
+put(tree, 15, "C")
+put(tree, 3, "D")
+put(tree, 7, "E")
+put(tree, 12, "F")
+put(tree, 18, "G")
+
+# get
+print("Obtener valor con clave 7:", get(tree, 7))  # "E"
+
+# min y max
+print("Clave mínima:", get_min(tree))  # 3
+print("Clave máxima:", get_max(tree))  # 18
+
+# floor
+print("Floor de 13:", floor(tree, 13))  # 12
+
+
+# size
+print("Tamaño del árbol:", size(tree))  # 7
+
+# rank
+print("Rango de clave 12:", rank(tree, 12))  # 4 
+
+# height
+print("Altura del árbol:", height(tree))  # 3 
+
+# keys en rango
+rango_claves = keys(tree, 5, 15)
+print("Claves entre 5 y 15:")
+
+
+# values en rango
+rango_valores = values(tree, 5, 15)
+print("Valores entre claves 5 y 15:")
+
+
+# delete_min
+delete_min(tree)
+print("Clave mínima después de eliminar la mínima:", get_min(tree))  # 5
+
+# remove
+remove(tree, 15)
+print("Contiene 15 después de eliminarla:", get(tree, 15))  # None
+
+# is_empty después de insertar
+print("¿Árbol vacío ahora?", is_empty(tree))  # False
+"""
