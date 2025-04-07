@@ -30,6 +30,7 @@ import datetime
 
 from DataStructures.Tree import binary_search_tree as bst
 from DataStructures.List import array_list as al
+from DataStructures.List import single_linked_list as sll
 from DataStructures.Map import map_linear_probing as lp
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
@@ -53,7 +54,7 @@ def new_logic():
     # TODO completar la creación del mapa ordenado
     #YA HECHO
     #analyzer['dateIndex'] = None
-    analyzer['dateIndex'] = bst.new_tree()
+    analyzer['dateIndex'] = bst.new_map()
     
     return analyzer
 
@@ -192,7 +193,7 @@ def min_key(analyzer):
     """
     # TODO Completar la función de consulta
     #YA HECHO
-    return bst.min_key(analyzer["dateIndex"])
+    return bst.get_min(analyzer["dateIndex"])
 
 
 def max_key(analyzer):
@@ -201,7 +202,7 @@ def max_key(analyzer):
     """
     # TODO Completar la función de consulta
     #YA HECHO
-    return bst.max_key(analyzer["dateIndex"])
+    return bst.get_max(analyzer["dateIndex"])
 
 
 
@@ -210,7 +211,9 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     Retorna el numero de crimenes en un rago de fechas.
     """
     # TODO Completar la función de consulta
-    pass
+    listica = sll.new_list()
+    bst.keys_range(analyzer["dateIndex"]["root"], initialDate, finalDate, listica)
+    return sll.size(listica)
 
 
 def get_crimes_by_range_code(analyzer, initialDate, offensecode):
@@ -219,4 +222,9 @@ def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     de un tipo especifico.
     """
     # TODO Completar la función de consulta
-    pass
+    nodoFecha = bst.get(analyzer["dateIndex"], initialDate)
+    count = 0
+    mapaCrimen = nodoFecha["value"][offensecode]
+    if mapaCrimen is not None:
+        count = al.size(mapaCrimen["lstoffenses"])
+    return count
