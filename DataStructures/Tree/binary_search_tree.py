@@ -1,5 +1,6 @@
 from DataStructures.Tree import bst_node as n
 from DataStructures.List import single_linked_list as sll
+from DataStructures.List import array_list as al
 
 def new_map():
     bst = {"root": None}
@@ -67,6 +68,23 @@ def delete_min_tree(node):
     
 def delete_min(bst):
     bst["root"] = delete_min_tree(bst["root"])
+    return bst
+
+def delete_max_tree(node):
+    if node is None:
+        return None
+    
+    if node["right"] is None:
+        return node["left"]  
+    
+    node["right"] = delete_min_tree(node["right"])  
+    
+    node["size"] -= 1
+    
+    return node
+    
+def delete_max(bst):
+    bst["root"] = delete_max_tree(bst["root"])
     return bst
 
 def remove_node(node, key):
@@ -241,8 +259,60 @@ def ceiling(my_bst, key):
     llave = floor_key(my_bst["root"], key)
     return llave
 
+def select(my_bst, pos):
+    lista = al.new_list()
+    lista = select_key(my_bst['root'], lista)
+    if lista and pos < al.size(lista) and pos >= 0:
+        key = al.get_element(lista, pos)
+        return key["key"]
+    else: return None
+        
 
+def select_key(root, lista):
+    if root == None:
+        return
+    select_key(root['left'], lista)
+    al.add_last(lista, root)
+    select_key(root['right'], lista)
+    
+    return lista
+    
+def get_left(node):
+    "Devuelve el nodo izquierdo"
+    
+    if node is None: return
+    return node['left']
 
+def get_right(node):
+    "Devuelve el nodo derecho"
+    
+    if node is None: return
+    return node['right']
+
+def key_set(my_bst):
+    curr = my_bst['root']
+    keys = sll.new_list()
+    curr = get_left(curr)
+    if curr is not None:
+        sll.add_last(keys, curr["key"])
+    curr = get_right(curr)
+    return keys
+        
+
+def value_set(my_bst):
+    curr = my_bst['root']
+    values = sll.new_list()
+    curr = get_left(curr)
+    if curr is not None:
+        sll.add_last(values, curr["value"])
+    curr = get_right(curr)
+    return values
+
+def contains(my_bst, key):
+    if get(my_bst, key) == None:
+        return False
+    else: return True
+    
 """
 #PRUEBAS
 
