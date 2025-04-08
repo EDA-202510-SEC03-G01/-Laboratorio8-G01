@@ -231,7 +231,13 @@ def get_crimes_by_range_code(analyzer, initialDate, offensecode):
   
     nodoFecha = bst.get(analyzer["dateIndex"], initialDate)
     count = 0
-    mapaCrimen = nodoFecha["value"][offensecode]
-    if mapaCrimen is not None:
-        count = al.size(mapaCrimen["lstoffenses"])
+    #print(nodoFecha.keys())
+    #print(lp.key_set(nodoFecha['offenseIndex']))
+    #print(lp.get(nodoFecha['offenseIndex'], 'Violations'))
+    if nodoFecha is not None:
+        mapaCrimen = nodoFecha["offenseIndex"]
+    if lp.contains(mapaCrimen, offensecode):
+        ofensa = lp.get(nodoFecha['offenseIndex'], offensecode)
+        crimenes = ofensa['lstoffenses']
+        count = al.size(crimenes)
     return count
