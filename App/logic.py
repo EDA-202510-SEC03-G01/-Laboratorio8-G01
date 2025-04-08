@@ -53,8 +53,7 @@ def new_logic():
                 }
 
     analyzer['crimes'] = al.new_list()
-    # TODO completar la creación del mapa ordenado
-    #YA HECHO
+    
     #analyzer['dateIndex'] = None
     analyzer['dateIndex'] = bst.new_map()
     
@@ -100,8 +99,7 @@ def update_date_index(map, crime):
     crimedate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
     entry = bst.get(map, crimedate.date())
     
-     # TODO Realizar el caso en el que no se encuentra la fecha
-     #YA HECHO
+     
     if entry is None:
         datentry = new_data_entry(crime)
         bst.put(map, crimedate.date(), datentry)
@@ -124,14 +122,10 @@ def add_date_index(datentry, crime):
     offenseIndex = datentry['offenseIndex']
     offentry = lp.get(offenseIndex, crime['OFFENSE_CODE_GROUP'])
     if (offentry is None):
-        # TODO Realice el caso en el que no se encuentre el tipo de crimen
-        #YA HECHO
         ofentry = new_offense_entry(crime['OFFENSE_CODE_GROUP'], crime)
         al.add_last(ofentry['lstoffenses'], crime)
         lp.put(offenseIndex, crime['OFFENSE_CODE_GROUP'], ofentry)
     else:
-        # TODO Realice el caso en el que se encuentre el tipo de crimen
-        #YA HECHO
         al.add_last(offentry['lstoffenses'], crime)
     return datentry
 
@@ -175,8 +169,6 @@ def index_height(analyzer):
     """
     Altura del arbol
     """
-    # TODO Completar la función de consulta
-    #YA HECHO
     return bst.height(analyzer["dateIndex"])
 
 
@@ -184,8 +176,6 @@ def index_size(analyzer):
     """
     Numero de elementos en el indice
     """
-    # TODO Completar la función de consulta
-    #YA HECHO
     return bst.size(analyzer["dateIndex"])
 
 
@@ -193,8 +183,6 @@ def min_key(analyzer):
     """
     Llave mas pequena
     """
-    # TODO Completar la función de consulta
-    #YA HECHO
     return bst.get_min(analyzer["dateIndex"])
 
 
@@ -202,8 +190,6 @@ def max_key(analyzer):
     """
     Llave mas grande
     """
-    # TODO Completar la función de consulta
-    #YA HECHO
     return bst.get_max(analyzer["dateIndex"])
 
 

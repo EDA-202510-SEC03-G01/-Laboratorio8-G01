@@ -128,6 +128,7 @@ def remove(bst, key):
     return bst
 
 def contains (bst,key):
+    #TODO : Gaby B terminar contains
     pass
         
 def is_empty (bst):
