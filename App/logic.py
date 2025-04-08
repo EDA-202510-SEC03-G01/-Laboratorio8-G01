@@ -28,6 +28,8 @@ import os
 import csv
 import datetime
 
+
+
 from DataStructures.Tree import binary_search_tree as bst
 from DataStructures.List import array_list as al
 from DataStructures.List import single_linked_list as sll
@@ -212,6 +214,9 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     """
     # TODO Completar la función de consulta
     listica = sll.new_list()
+    initialDate = datetime.datetime.strptime(initialDate, "%Y-%m-%d").date()
+    finalDate = datetime.datetime.strptime(finalDate, "%Y-%m-%d").date()
+
     bst.keys_range(analyzer["dateIndex"]["root"], initialDate, finalDate, listica)
     return sll.size(listica)
 
@@ -222,6 +227,8 @@ def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     de un tipo especifico.
     """
     # TODO Completar la función de consulta
+    initialDate = datetime.datetime.strptime(initialDate, "%Y-%m-%d").date()
+  
     nodoFecha = bst.get(analyzer["dateIndex"], initialDate)
     count = 0
     mapaCrimen = nodoFecha["value"][offensecode]
