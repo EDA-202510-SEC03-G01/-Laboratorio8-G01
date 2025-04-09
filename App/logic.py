@@ -222,7 +222,12 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     finalDate = datetime.datetime.strptime(finalDate, "%Y-%m-%d").date()
 
     bst.keys_range(analyzer["dateIndex"]["root"], initialDate, finalDate, listica)
-    return sll.size(listica)
+    count = 0
+    for i in range(sll.size(listica)):
+        nodoFecha = bst.get(analyzer["dateIndex"], sll.remove_first(listica))
+        if nodoFecha is not None:
+            count += al.size(nodoFecha['lstcrimes'])
+    return count
 
 def get_crimes_by_range_code(analyzer, initialDate, offense_group):
     initialDate = datetime.datetime.strptime(initialDate, "%Y-%m-%d").date()
