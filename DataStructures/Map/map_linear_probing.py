@@ -57,20 +57,26 @@ def contains(my_map, key):
     return False
 
 def put(my_map, key, value):
-    if contains(my_map, key) == False:
+    if not contains(my_map, key):
         hash_el = f.hash_value(my_map, key)
         pos = f.find_slot(my_map, key, hash_el)
-        #print("elemento",my_map["table"]["elements"][pos[1]]["key"])
         my_map["table"]["elements"][pos[1]]["key"] = key
         my_map["table"]["elements"][pos[1]]["value"] = value
         my_map["size"] += 1
-        my_map["current_factor"] = calc_currentfactor(my_map["size"], my_map["capacity"])
     else:
         hash_el = f.hash_value(my_map, key)
         pos = f.find_slot(my_map, key, hash_el)
-        my_map["table"]["elements"][pos[1]]["value"]= value
-        my_map["current_factor"] = calc_currentfactor(my_map["size"], my_map["capacity"])
+        my_map["table"]["elements"][pos[1]]["value"] = value
+
+    # Actualizar factor de carga
+    my_map["current_factor"] = calc_currentfactor(my_map["size"], my_map["capacity"])
+
+    # Si se supera el factor de carga permitido, hacer rehash
+    if my_map["current_factor"] > my_map["limit_factor"]:
+        my_map = rehash(my_map)
+
     return my_map
+
 
 def get(my_map, key):
     val = None
@@ -212,7 +218,7 @@ print("BORRADO", my_table)
 #print(key_set(my_table))
 #print(value_set(my_table))
 #print(remove(my_table,3))
-"""
+
 my_table = new_map(5, 0.5)
 print(my_table) # Se espera la misma respuesta de new_map()
 
@@ -227,3 +233,5 @@ print(my_table)
 my_table = rehash(my_table)
 print(my_table)
 print(f.next_prime(11*2))
+
+"""
