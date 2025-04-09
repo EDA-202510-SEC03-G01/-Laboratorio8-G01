@@ -53,7 +53,7 @@ def new_logic():
                 }
 
     analyzer['crimes'] = al.new_list()
-    # TODO completar la creación del mapa ordenado
+   
     #YA HECHO
     #analyzer['dateIndex'] = None
     analyzer['dateIndex'] = bst.new_map()
@@ -102,7 +102,6 @@ def update_date_index(map, crime):
 
     entry = bst.get(map, crimedate.date())
     
-     # TODO Realizar el caso en el que no se encuentra la fecha
      #YA HECHO
     if entry is None:
         datentry = new_data_entry(crime)
@@ -181,7 +180,7 @@ def index_height(analyzer):
     """
     Altura del arbol
     """
-    # TODO Completar la función de consulta
+
     #YA HECHO
     return bst.height(analyzer["dateIndex"])
 
@@ -190,7 +189,7 @@ def index_size(analyzer):
     """
     Numero de elementos en el indice
     """
-    # TODO Completar la función de consulta
+ 
     #YA HECHO
     return bst.size(analyzer["dateIndex"])
 
@@ -199,7 +198,6 @@ def min_key(analyzer):
     """
     Llave mas pequena
     """
-    # TODO Completar la función de consulta
     #YA HECHO
     return bst.get_min(analyzer["dateIndex"])
 
@@ -208,7 +206,7 @@ def max_key(analyzer):
     """
     Llave mas grande
     """
-    # TODO Completar la función de consulta
+ 
     #YA HECHO
     return bst.get_max(analyzer["dateIndex"])
 
@@ -218,7 +216,7 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     """
     Retorna el numero de crimenes en un rago de fechas.
     """
-    # TODO Completar la función de consulta
+
     listica = sll.new_list()
     initialDate = datetime.datetime.strptime(initialDate, "%Y-%m-%d").date()
     finalDate = datetime.datetime.strptime(finalDate, "%Y-%m-%d").date()
