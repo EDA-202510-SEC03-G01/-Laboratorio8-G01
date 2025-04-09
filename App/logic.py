@@ -111,29 +111,30 @@ def update_date_index(map, crime):
     add_date_index(datentry, crime)
     return map
 
-
 def add_date_index(datentry, crime):
     """
-    Actualiza un indice de tipo de crimenes.  Este indice tiene una lista
-    de crimenes y una tabla de hash cuya llave es el tipo de crimen y
-    el valor es una lista con los crimenes de dicho tipo en la fecha que
-    se está consultando (dada por el nodo del arbol)
+    Actualiza el índice por fecha. Usa OFFENSE_CODE como clave
+    pero mantiene OFFENSE_CODE_GROUP como valor descriptivo.
     """
     lst = datentry['lstcrimes']
     al.add_last(lst, crime)
     offenseIndex = datentry['offenseIndex']
-    offentry = lp.get(offenseIndex, crime['OFFENSE_CODE_GROUP'])
-    if (offentry is None):
-        # TODO Realice el caso en el que no se encuentre el tipo de crimen
-        #YA HECHO
-        ofentry = new_offense_entry(crime['OFFENSE_CODE_GROUP'], crime)
+
+    offense_code = crime['OFFENSE_CODE']
+    offense_group = crime['OFFENSE_CODE_GROUP']
+
+    offentry = lp.get(offenseIndex, offense_code)
+
+    if offentry is None:
+        ofentry = new_offense_entry(offense_group, crime)
         al.add_last(ofentry['lstoffenses'], crime)
-        lp.put(offenseIndex, crime['OFFENSE_CODE_GROUP'], ofentry)
+        lp.put(offenseIndex, offense_code, ofentry)
     else:
-        # TODO Realice el caso en el que se encuentre el tipo de crimen
-        #YA HECHO
         al.add_last(offentry['lstoffenses'], crime)
+
     return datentry
+
+
 
 
 def new_data_entry(crime):
@@ -150,8 +151,8 @@ def new_data_entry(crime):
 
 def new_offense_entry(offensegrp, crime):
     """
-    Crea una entrada en el indice por tipo de crimen, es decir en
-    la tabla de hash, que se encuentra en cada nodo del arbol.
+    Crea una entrada en el índice por tipo de crimen, usando
+    OFFENSE_CODE_GROUP como descripción.
     """
     ofentry = {'offense': None, 'lstoffenses': None}
     ofentry['offense'] = offensegrp
@@ -220,24 +221,21 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     bst.keys_range(analyzer["dateIndex"]["root"], initialDate, finalDate, listica)
     return sll.size(listica)
 
-
 def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     """
-    Para una fecha determinada, retorna el numero de crimenes
-    de un tipo especifico.
+    Para una fecha determinada, retorna el número de crímenes
+    de un tipo específico, identificado por su OFFENSE_CODE (numérico).
     """
-    # TODO Completar la función de consulta
     initialDate = datetime.datetime.strptime(initialDate, "%Y-%m-%d").date()
-  
     nodoFecha = bst.get(analyzer["dateIndex"], initialDate)
     count = 0
-    #print(nodoFecha.keys())
-    #print(lp.key_set(nodoFecha['offenseIndex']))
-    #print(lp.get(nodoFecha['offenseIndex'], 'Violations'))
+
     if nodoFecha is not None:
         mapaCrimen = nodoFecha["offenseIndex"]
-    if lp.contains(mapaCrimen, offensecode):
-        ofensa = lp.get(nodoFecha['offenseIndex'], offensecode)
-        crimenes = ofensa['lstoffenses']
-        count = al.size(crimenes)
+        if lp.contains(mapaCrimen, offensecode):
+            ofensa = lp.get(mapaCrimen, offensecode)
+            crimenes = ofensa['lstoffenses']
+            count = al.size(crimenes)
+
     return count
+
