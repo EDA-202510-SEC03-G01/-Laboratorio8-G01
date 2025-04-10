@@ -126,9 +126,6 @@ def remove_node(node, key):
 def remove(bst, key):
     bst['root'] = remove_node(bst['root'], key)
     return bst
-
-def contains (bst,key):
-    pass
         
 def is_empty (bst):
     if bst["root"] == None:
